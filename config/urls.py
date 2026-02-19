@@ -16,11 +16,10 @@ from apps.core.views import (
 )
 from apps.imports.views import ImportBatchViewSet
 from apps.webui.views import (
+    RWLLoginView,
     landing_view,
-    login_view,
     logout_view,
     shop_redirect_view,
-    telegram_auth_view,
     workspace_view,
 )
 
@@ -36,8 +35,7 @@ router.register("imports", ImportBatchViewSet, basename="import")
 urlpatterns = [
     path("", landing_view, name="landing"),
     path("shop/", shop_redirect_view, name="shop"),
-    path("login/", login_view, name="login"),
-    path("auth/telegram/", telegram_auth_view, name="telegram-auth"),
+    path("login/", RWLLoginView.as_view(), name="login"),
     path("logout/", logout_view, name="logout"),
     path("workspace/", workspace_view, name="workspace"),
     path("admin/", admin.site.urls),

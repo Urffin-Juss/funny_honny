@@ -1,0 +1,24 @@
+{% extends "admin/base_site.html" %}
+{% load static %}
+
+{% block extrahead %}
+{{ block.super }}
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;700;900&family=Bebas+Neue&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="{% static 'rwl_admin/admin.css' %}">
+{% endblock %}
+
+{% block branding %}
+<h1 id="site-name">
+  <a href="{% url 'admin:index' %}" class="rwl-brand">
+    <img src="{% static 'images/rwl-logo.jpg' %}" alt="Run With Love" class="rwl-brand-logo" />
+    <span class="rwl-brand-text">Run With Love CRM</span>
+  </a>
+</h1>
+{% endblock %}
+
+{% block nav-global %}
+<a href="/workspace/" class="rwl-top-link">Workspace</a>
+<a href="/" class="rwl-top-link">Landing</a>
+{% endblock %}

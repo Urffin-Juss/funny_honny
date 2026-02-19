@@ -6,7 +6,7 @@ from django.core.files.uploadedfile import SimpleUploadedFile
 from openpyxl import Workbook
 from rest_framework.test import APIClient
 
-from apps.core.models import Client
+from apps.core.models import Client, Notification, NotificationType
 from apps.imports.models import ImportBatch, ImportBatchStatus
 
 
@@ -51,6 +51,7 @@ def test_import_batch_creates_clients_and_raw_rows(monkeypatch):
     assert batch.rows.count() == 2
     assert Client.objects.filter(phone="+70000000001", full_name="Runner One").exists()
     assert Client.objects.filter(phone="+70000000002", full_name="Runner Two").exists()
+    assert Notification.objects.filter(recipient=owner, notification_type=NotificationType.IMPORT_SUMMARY).exists()
 
 
 @pytest.mark.django_db
@@ -83,3 +84,4 @@ def test_import_batch_rejects_missing_columns(monkeypatch):
     batch = ImportBatch.objects.get(id=response.data["id"])
     assert batch.status == ImportBatchStatus.FAILED
     assert "Missing required columns" in batch.error_message
+    assert Notification.objects.filter(recipient=owner, notification_type=NotificationType.IMPORT_SUMMARY).exists()

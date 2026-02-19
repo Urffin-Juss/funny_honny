@@ -11,28 +11,23 @@
 
 ## Что уже есть
 - Роли: `owner`, `admin`, `packer`
-- Сущности MVP: Event, Client, Product, Stock, Order, OrderItem, Task, ImportBatch, RawExcelRow
+- Сущности MVP: Event, Client, Product, Stock, Order, OrderItem, Task, ImportBatch, RawExcelRow, Notification
 - API + фильтры + ролевой доступ
 - Dashboard API (`owner` only)
-- Telegram регистрация/авторизация:
-  - вход через Telegram Login Widget
-  - серверная проверка подписи (`hash`)
-  - авто-создание пользователя при первом входе
 - Веб-интерфейс в стилистике RWL (черный/белый/красный + логотип)
-  - `/` главная с автопереходом в магазин
+  - `/` главная
   - `/shop/` redirect на магазин
-  - `/login/` вход через Telegram
+  - `/login/` вход по логину/паролю
   - `/workspace/` внутренняя рабочая страница
+- Агрегированные уведомления по импорту внутри CRM (вместо внешних мессенджеров)
 
 ## Запуск
 1. Создайте `.env`:
 ```bash
 cp .env.example .env
 ```
-2. Заполните Telegram-параметры в `.env`:
+2. Заполните параметры в `.env`:
 ```env
-TELEGRAM_BOT_TOKEN=<bot_token>
-TELEGRAM_BOT_USERNAME=<bot_username_without_@>
 SHOP_URL=https://ваш-магазин
 ```
 3. Поднимите сервисы:
@@ -56,7 +51,6 @@ docker-compose exec web python manage.py createsuperuser
 - Swagger: `http://localhost:8000/api/docs/`
 
 ## Примечания
-- Новые Telegram-пользователи создаются с ролью `packer`.
 - Повышение роли (`admin`/`owner`) выполняется в админке.
 - Импорт Excel реализован как MVP-контур с сохранением raw-строк.
 - `xlsx` поддерживается из коробки. Для `xls` требуется пакет `xlrd`; без него импорт отметится как `FAILED` с понятной ошибкой.

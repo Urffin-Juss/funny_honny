@@ -129,3 +129,26 @@ class Task(TimeStampedModel):
 
     def __str__(self) -> str:
         return f"Task #{self.pk} ({self.status})"
+
+
+class NotificationType(models.TextChoices):
+    IMPORT_SUMMARY = "import_summary", "Import summary"
+    SYSTEM = "system", "System"
+
+
+class Notification(TimeStampedModel):
+    recipient = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+        related_name="notifications",
+    )
+    notification_type = models.CharField(max_length=30, choices=NotificationType.choices, default=NotificationType.SYSTEM)
+    title = models.CharField(max_length=255)
+    body = models.TextField(blank=True)
+    is_read = models.BooleanField(default=False)
+
+    class Meta:
+        ordering = ("-created_at",)
+
+    def __str__(self) -> str:
+        return f"{self.title} -> {self.recipient}"

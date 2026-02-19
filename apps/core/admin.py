@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import Client, Event, Order, OrderItem, Product, Stock, Task
+from .models import Client, Event, Notification, Order, OrderItem, Product, Stock, Task
 
 
 @admin.register(Event)
@@ -43,3 +43,10 @@ class OrderAdmin(admin.ModelAdmin):
 class TaskAdmin(admin.ModelAdmin):
     list_display = ("id", "task_type", "assignee", "status", "created_at")
     list_filter = ("status", "task_type")
+
+
+@admin.register(Notification)
+class NotificationAdmin(admin.ModelAdmin):
+    list_display = ("id", "recipient", "notification_type", "title", "is_read", "created_at")
+    list_filter = ("notification_type", "is_read", "created_at")
+    search_fields = ("title", "body", "recipient__username")
